@@ -351,6 +351,7 @@ body {
 .calc__button {
   cursor: pointer;
   text-align: center;
+  transition: all 0.3s ease-in;
 }
 
 .calc__button:hover,
@@ -379,6 +380,16 @@ input[type="number"] {
   height: 1.2rem;
   width: 1.2rem;
   fill: var(--color-orange);
+}
+
+.plus__icon > svg:hover,
+.minus__icon > svg:hover {
+  transform: scale(1.3);
+}
+
+.plus__icon > svg:active,
+.minus__icon > svg:active {
+  transform: scale(0.95);
 }
 
 .minus__button {

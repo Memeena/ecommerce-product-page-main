@@ -274,10 +274,7 @@ cartButton.addEventListener("click", function (e) {
   checkoutButton.classList.remove("hidden");
 
   //On click of delete button
-  basketDetails.lastChild.addEventListener("click", function (e) {
-    // e.preventDefault();
-    emptyCart();
-  });
+  basketDetails.lastChild.addEventListener("click", emptyCart);
 });
 
 const emptyCart = function () {
