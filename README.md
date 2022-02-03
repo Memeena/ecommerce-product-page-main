@@ -11,10 +11,7 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 ## Overview
 
@@ -38,7 +35,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Solution URL here](https://github.com/Memeena/ecommerce-product-page-main)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [Live site URL here](https://your-live-site-url.com)
 
 ## My process
 
@@ -68,9 +65,7 @@ This challenge helped me improve the following concepts.
 Code snippets I am proud about, see below:
 
 ```js
-basketDetails.lastChild.addEventListener("click", function (e) {
-  emptyCart();
-});
+basketDetails.lastChild.addEventListener("click", emptyCart);
 ```
 
 ## Author
