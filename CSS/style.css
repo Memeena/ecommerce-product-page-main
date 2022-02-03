@@ -169,13 +169,15 @@ body {
   fill: var(--color-dark-grayish-blue);
 }
 
-.cart-close:hover {
+.cart-close:hover,
+.delete-button:hover {
   fill: var(--color-orange);
 }
 
 .delete-button {
   height: 1.4rem;
   width: 1.6rem;
+  fill: #c3cad9;
 }
 
 .empty-cart {
@@ -258,10 +260,15 @@ body {
 .thumbnails {
   border-radius: 10px;
   opacity: 1;
+  transition: all 0.3s ease-in;
 }
 
 .thumbnails:not(:last-child) {
   margin-right: 2.8rem;
+}
+
+.thumbnails:hover {
+  opacity: 0.7;
 }
 
 .thumbnail--active {
@@ -346,6 +353,11 @@ body {
   text-align: center;
 }
 
+.calc__button:hover,
+.calc__button:active {
+  opacity: 0.7;
+}
+
 .product__count {
   border: none;
   background-color: var(--color-light-grayish-blue);
@@ -379,6 +391,19 @@ input[type="number"] {
   font-weight: 700;
   border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease-in;
+}
+
+.button:hover {
+  opacity: 0.7;
+  transform: scale(1.05);
+}
+
+.button:visited,
+.button:active {
+  opacity: 0.5;
+  transform: scale(0.95);
 }
 
 .button__addtocart {
