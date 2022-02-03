@@ -89,7 +89,7 @@
             </li>
           </ul>
         </div>
-        <div class="overlay hidden"></div>
+        <div class="overlay-menu hidden"></div>
       </div>
 
       <div class="header__cart">
@@ -153,33 +153,25 @@
             class="product__images__main light__box-show"
           />
         </div>
+        <div class="thumbnail-container thumbnail-container-main"></div>
+      </div>
 
-        <div class="product__images__thumbnail">
-          <img
-            src="images/image-product-1-thumbnail.jpg"
-            alt="Thumbnail1"
-            class="product__images__thumbnails thumbnail--active"
-            data-image="1"
-          />
-          <img
-            src="images/image-product-2-thumbnail.jpg"
-            alt="Thumbnail2"
-            class="product__images__thumbnails"
-            data-image="2"
-          />
-          <img
-            src="images/image-product-3-thumbnail.jpg"
-            alt="Thumbnail3"
-            class="product__images__thumbnails"
-            data-image="3"
-          />
-          <img
-            src="images/image-product-4-thumbnail.jpg"
-            alt="Thumbnail4"
-            class="product__images__thumbnails"
-            data-image="4"
-          />
-        </div>
+      <div class="product__images--mobile">
+        <span class="prev__button">
+          <svg class="prev-button-mobile">
+            <use href="images/sprite.svg#icon-previous"></use>
+          </svg>
+        </span>
+        <span class="next__button">
+          <svg class="next-button-mobile">
+            <use href="images/sprite.svg#icon-next"></use>
+          </svg>
+        </span>
+        <img
+          src="images/image-product-1.jpg"
+          alt="Main image"
+          class="product__images--mobile-img"
+        />
       </div>
 
       <div class="product__details">
@@ -297,7 +289,7 @@
         </div>
       </div>
 
-      <div class="thumbnail-container"></div>
+      <div class="thumbnail-container thumbnail-container-light"></div>
     </div>
 
     <div class="overlay hidden"></div>

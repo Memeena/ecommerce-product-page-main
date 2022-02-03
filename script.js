@@ -4,15 +4,23 @@ const thumbnailImages = document.querySelectorAll(
   ".product__images__thumbnails"
 );
 const mainproductImage = document.querySelector(".product__images__main");
-
 const lightBox = document.querySelector(".light__box");
 const overlay = document.querySelector(".overlay");
+const overlayMenu = document.querySelector(".overlay-menu");
 const openLightBox = document.querySelector(".light__box-show");
 const closeLightBox = document.querySelector(".light__box-close");
 const slides = document.querySelectorAll(".main-image");
 const btnLeft = document.querySelector(".prev-button");
 const btnRight = document.querySelector(".next-button");
+const iconLeft = document.querySelector(".prev-button-mobile");
+const iconRight = document.querySelector(".next-button-mobile");
 const thumbnailContainer = document.querySelector(".thumbnail-container");
+const thumbnailContainerMain = document.querySelector(
+  ".thumbnail-container-main"
+);
+const thumbnailContainerLight = document.querySelector(
+  ".thumbnail-container-light"
+);
 const plusButton = document.querySelector(".plus-button");
 const minusButton = document.querySelector(".minus-button");
 let itemCount = document.querySelector(".product__count");
@@ -30,61 +38,99 @@ const cartcloseButton = document.querySelector(".cart-close");
 const mobilemenuIcon = document.querySelector(".mobile-menu");
 const mobileMenu = document.querySelector(".header__mobile--background");
 const menuClose = document.querySelector(".menu-close");
+const thumbnails = document.querySelectorAll(".thumbnails");
+const productMobile = document.querySelector(".product__images--mobile");
+const productImagesMobile = document.querySelector(
+  ".product__images--mobile-img"
+);
+
+//Generate thumbnails
+const createThumbnail = function (classname, container) {
+  slides.forEach((s, i) => {
+    container.insertAdjacentHTML(
+      "beforeend",
+      `<img
+  src="images/image-product-${i + 1}-thumbnail.jpg"
+  alt="thumbnail${i + 1}"
+  class="thumbnails ${classname} ${i === 0 ? "thumbnail--active" : ""}"
+  data-slide="${i}"
+/>`
+    );
+  });
+};
 
 const init = function () {
   //Traversing through the thumbnail images on the main page
-  thumbnailImages[0].style.border = "3px solid hsl(26, 100%, 55%)";
+  // thumbnailImages[0].style.border = "3px solid hsl(26, 100%, 55%)";
   cartQuantity.textContent = 0;
+  //Creating thumbnails in the main page
+  createThumbnail("thumbnails--main", thumbnailContainerMain);
+};
+
+//Remove already existing active thumbnail
+const removeExistingThumbnail = function (parentEl) {
+  parentEl.forEach((thumbnail) => {
+    thumbnail.classList.remove("thumbnail--active");
+    thumbnail.style.border = "";
+    thumbnail.style.transform = "scale(1)";
+  });
+};
+
+//Activating the specific thumbnail
+const activateThumbnail = function (el) {
+  el.classList.add("thumbnail--active");
+  el.style.border = "3px solid hsl(26, 100%, 55%)";
+  el.style.transform = "scale(1.2)";
 };
 
 init();
+//Change the main Product image as of thumbnail clicked
 
-thumbnailImages.forEach((thumbnail, i) => {
+document.querySelectorAll(".thumbnails").forEach((thumbnail, i) => {
   thumbnail.addEventListener("click", function () {
-    //Change the main Product image as of thumbnail clicked
     mainproductImage.src = `images/image-product-${i + 1}.jpg`;
 
+    const parentEl = document.querySelectorAll(".thumbnails--main");
     //Remove already existing active thumbnail
-    thumbnailImages.forEach((thumbnail) => {
-      thumbnail.classList.remove("thumbnail--active");
-      thumbnail.style.border = "";
-      thumbnail.style.transform = "scale(1)";
-    });
+    removeExistingThumbnail(parentEl);
 
     //Activating the specific thumbnail
-    document
-      .querySelector(`.product__images__thumbnails[data-image = "${i + 1}"]`)
-      .classList.add("thumbnail--active");
-    thumbnail.style.border = "3px solid hsl(26, 100%, 55%)";
-    thumbnail.style.transform = "scale(1.2)";
+    const el = document.querySelector(`.thumbnails--main[data-slide = "${i}"]`);
+    activateThumbnail(el);
   });
 });
 
-//Opening LightBox Modal
-const openModal = function (e) {
-  e.preventDefault();
-
-  lightBox.classList.remove("hidden");
-  overlay.classList.remove("hidden");
-  slider();
+//Open Modal
+const openModal = function (el, el1) {
+  el.classList.remove("hidden");
+  el1.classList.remove("hidden");
 };
+
+//Close Modal
+const closeModal = function (el, el1) {
+  el.classList.add("hidden");
+  el1.classList.add("hidden");
+};
+
+//Opening LightBox Modal
+openLightBox.addEventListener("click", function (e) {
+  e.preventDefault();
+  openModal(lightBox, overlay);
+  slider();
+});
 
 //Closing LightBox Modal
-const closeModal = function () {
-  lightBox.classList.add("hidden");
-  overlay.classList.add("hidden");
-  thumbnailContainer.innerHTML = "";
-};
+closeLightBox.addEventListener("click", function (e) {
+  e.preventDefault();
+  closeModal(lightBox, overlay);
+});
 
-openLightBox.addEventListener("click", openModal);
-
-closeLightBox.addEventListener("click", closeModal);
-overlay.addEventListener("click", closeModal);
+overlay.addEventListener("click", closeModal(lightBox, overlay));
 
 //On Pressing Escape key, when the modal is open
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && !lightBox.classList.contains("hidden")) {
-    closeModal();
+    closeModal(lightBox, overlay);
   }
 });
 
@@ -92,43 +138,18 @@ document.addEventListener("keydown", function (e) {
 const slider = function () {
   let curSlide = 0;
   let maxSlide = slides.length;
-
-  //Creating thumbnails
-  const createThumbnail = function () {
-    slides.forEach((s, i) => {
-      thumbnailContainer.insertAdjacentHTML(
-        "beforeend",
-        `<img
-    src="images/image-product-${i + 1}-thumbnail.jpg"
-    alt="thumbnail${i + 1}"
-    class="thumbnails"
-    data-slide="${i}"
-  />`
-      );
-    });
-  };
+  let parentEl;
 
   //Activating thumbnail
-
-  const activateThumbnail = function (slide) {
+  const activateSlide = function (slide) {
     //Before activating we need to first remove any active thumbnail
-    document.querySelectorAll(".thumbnails").forEach((thumbnail) => {
-      thumbnail.classList.remove("thumbnail--active");
-      thumbnail.style.border = "";
-      thumbnail.style.transform = "scale(1)";
-    });
+    removeExistingThumbnail(parentEl);
 
     //Activating the specific thumbnail
-
-    document
-      .querySelector(`.thumbnails[data-slide = "${slide}"]`)
-      .classList.add("thumbnail--active");
-    document.querySelector(
-      `.thumbnails[data-slide = "${slide}"]`
-    ).style.border = "3px solid hsl(26, 100%, 55%)";
-    document.querySelector(
-      `.thumbnails[data-slide = "${slide}"]`
-    ).style.transform = "scale(1.2)";
+    const el = document.querySelector(
+      `.thumbnails--light[data-slide = "${slide}"]`
+    );
+    activateThumbnail(el);
   };
 
   const goToSlide = function (slide) {
@@ -138,6 +159,7 @@ const slider = function () {
   };
 
   const nextSlide = function () {
+    console.log("Inside next slide");
     if (curSlide === maxSlide - 1) {
       curSlide = 0;
     } else {
@@ -145,7 +167,7 @@ const slider = function () {
     }
 
     goToSlide(curSlide);
-    activateThumbnail(curSlide);
+    activateSlide(curSlide);
   };
 
   const prevSlide = function () {
@@ -155,24 +177,26 @@ const slider = function () {
       curSlide--;
     }
     goToSlide(curSlide);
-    activateThumbnail(curSlide);
+    activateSlide(curSlide);
   };
 
   const init = function () {
     goToSlide(0);
-    createThumbnail();
-    activateThumbnail(0);
+    thumbnailContainerLight.innerHTML = "";
+    createThumbnail("thumbnails--light", thumbnailContainerLight);
+    parentEl = document.querySelectorAll(".thumbnails--light");
+    activateSlide(0);
   };
   init();
 
   //Event handlers
-  thumbnailContainer.addEventListener("click", function (e) {
-    if (e.target.classList.contains("thumbnail")) {
+  thumbnailContainerLight.addEventListener("click", function (e) {
+    if (e.target.classList.contains("thumbnails--light")) {
       // const slide = e.target.dataset.slide;
       //we can also destructure like this
       const { slide } = e.target.dataset;
       goToSlide(slide);
-      activateThumbnail(slide);
+      activateSlide(slide);
     }
   });
 
@@ -272,27 +296,64 @@ cartcloseButton.addEventListener("click", function (e) {
   cartBasket.classList.add("hidden");
 });
 
-const openMenu = function (e) {
+//Mobile menu display
+mobilemenuIcon.addEventListener("click", function (e) {
   e.preventDefault();
+  console.log("MEnu icon clicked");
+  openModal(mobileMenu, overlayMenu);
+});
 
-  mobileMenu.classList.remove("hidden");
-  overlay.classList.remove("hidden");
-};
-
-//Closing LightBox Modal
-const closeMenu = function () {
-  mobileMenu.classList.add("hidden");
-  overlay.classList.add("hidden");
-};
-
-mobilemenuIcon.addEventListener("click", openMenu);
-
-menuClose.addEventListener("click", closeMenu);
-overlay.addEventListener("click", closeMenu);
+menuClose.addEventListener("click", function (e) {
+  e.preventDefault();
+  closeModal(mobileMenu, overlayMenu);
+});
+overlayMenu.addEventListener("click", closeModal(mobileMenu, overlayMenu));
 
 //On Pressing Escape key, when the modal is open
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
-    closeMenu();
+    closeModal(mobileMenu, overlayMenu);
   }
 });
+
+console.log(productMobile);
+if (!productMobile.style.opacity) {
+  let curSlide = 0;
+  let maxSlide = slides.length;
+  let parentEl;
+  console.log("Inside slider mobile function");
+
+  const goToSlide = function (slide) {
+    productImagesMobile.src = `images/image-product-${slide + 1}.jpg`;
+  };
+
+  const nextSlide = function () {
+    if (curSlide === maxSlide - 1) {
+      curSlide = 0;
+    } else {
+      curSlide++;
+    }
+
+    goToSlide(curSlide);
+  };
+
+  const prevSlide = function () {
+    if (curSlide === 0) {
+      curSlide = maxSlide - 1;
+    } else {
+      curSlide--;
+    }
+    goToSlide(curSlide);
+  };
+
+  //Event handlers
+  iconRight.addEventListener("click", nextSlide);
+
+  iconLeft.addEventListener("click", prevSlide);
+
+  //Adding an event listener for 'Left' and 'Right Arrow' key pressed
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") prevSlide();
+    e.key === "ArrowRight" && nextSlide();
+  });
+}
