@@ -60,11 +60,12 @@ const createThumbnail = function (classname, container) {
 };
 
 const init = function () {
-  //Traversing through the thumbnail images on the main page
-  // thumbnailImages[0].style.border = "3px solid hsl(26, 100%, 55%)";
   cartQuantity.textContent = 0;
   //Creating thumbnails in the main page
   createThumbnail("thumbnails--main", thumbnailContainerMain);
+  //Setting the first thumbnail border
+  thumbnailContainerMain.children[0].style.border =
+    "3px solid hsl(26, 100%, 55%)";
 };
 
 //Remove already existing active thumbnail
@@ -159,7 +160,6 @@ const slider = function () {
   };
 
   const nextSlide = function () {
-    console.log("Inside next slide");
     if (curSlide === maxSlide - 1) {
       curSlide = 0;
     } else {
@@ -237,7 +237,6 @@ addtoCartButton.addEventListener("click", function (e) {
 
 //On click of cart button
 cartButton.addEventListener("click", function (e) {
-  console.log("Cart button is clicked");
   e.preventDefault();
   cartBasket.classList.remove("hidden");
   const qty = +cartQuantity.textContent;
@@ -296,10 +295,11 @@ cartcloseButton.addEventListener("click", function (e) {
   cartBasket.classList.add("hidden");
 });
 
+////////////////////Mobile View//////////////////
 //Mobile menu display
 mobilemenuIcon.addEventListener("click", function (e) {
   e.preventDefault();
-  console.log("MEnu icon clicked");
+
   openModal(mobileMenu, overlayMenu);
 });
 
@@ -316,12 +316,10 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-console.log(productMobile);
-if (!productMobile.style.opacity) {
+//Slider function for mobile view of Product Images
+if (getComputedStyle(productMobile).opacity === "1") {
   let curSlide = 0;
   let maxSlide = slides.length;
-  let parentEl;
-  console.log("Inside slider mobile function");
 
   const goToSlide = function (slide) {
     productImagesMobile.src = `images/image-product-${slide + 1}.jpg`;
